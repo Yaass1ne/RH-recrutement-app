@@ -17,7 +17,7 @@ This Flask-based project automates candidate filtering through two main processe
 - Semantic CV-to-job matching and scoring using advanced NLP.
 - AI-generated interview questions and scoring through GPT-3.5.
 - Automatic email notifications for candidate interviews.
-- Admin interface for easy job and candidate management and logs.
+- Admin interface for easy job and candidate management.
 
 ---
 
@@ -60,7 +60,25 @@ pip install -r requirements.txt
 python -m spacy download fr_core_news_md
 ```
 
-**Step 4: Launch Application**
+**Step 4: Set Environment Variables**
+
+**Windows**:
+```cmd
+set OPENAI_API_KEY=your_openai_api_key_here
+set SENDER_EMAIL=your_email@example.com
+set SENDER_PASSWORD=your_email_password
+```
+
+**Linux/MacOS**:
+```bash
+export OPENAI_API_KEY=your_openai_api_key_here
+export SENDER_EMAIL=your_email@example.com
+export SENDER_PASSWORD=your_email_password
+```
+
+Replace the placeholders (`your_openai_api_key_here`, `your_email@example.com`, and `your_email_password`) with your actual details.
+
+**Step 5: Launch Application**
 
 ```bash
 flask run
