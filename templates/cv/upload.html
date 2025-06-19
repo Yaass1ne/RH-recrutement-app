@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Téléverser CV{% endblock %}
+{% block content %}
+<div class="w-full max-w-md mx-auto bg-white dark:bg-darkcard rounded-2xl shadow-soft p-8 animate-fade-in">
+  <h2 class="text-2xl font-bold text-primary dark:text-accent mb-6 text-center">Téléverser votre CV</h2>
+  <form method="POST" action="{{ url_for('cv.upload_cv') }}" enctype="multipart/form-data" class="space-y-5">
+    <div>
+      <label for="cv_file" class="block mb-1 font-medium">Choisissez votre CV (PDF) :</label>
+      <input type="file" name="cv_file" id="cv_file" accept=".pdf" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-darkbg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary file:text-white file:font-semibold" />
+    </div>
+    <button type="submit" class="w-full py-2 rounded-lg bg-primary hover:bg-accent text-white font-semibold shadow transition">Envoyer le CV</button>
+  </form>
+</div>
+{% endblock %}

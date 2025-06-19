@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portail Recrutement{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { montserrat: ['Montserrat', 'sans-serif'] },
+            colors: {
+              primary: '#6366f1',
+              accent: '#a78bfa',
+              bg: '#f8fafc',
+              darkbg: '#181926',
+              card: '#fff',
+              darkcard: '#232946',
+              nav: '#f1f5f9',
+              darknav: '#232946',
+            },
+            boxShadow: {
+              'soft': '0 4px 32px 0 rgba(80, 80, 180, 0.10)',
+            },
+            animation: {
+              'fade-in': 'fadeIn 1s ease',
+              'slide-down': 'slideDown 0.7s cubic-bezier(.39,.575,.565,1.000)'
+            },
+            keyframes: {
+              fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+              slideDown: { '0%': { transform: 'translateY(-30px)', opacity: 0 }, '100%': { transform: 'translateY(0)', opacity: 1 } }
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="font-montserrat bg-bg dark:bg-darkbg text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-500">
+    <!-- Navbar -->
+    <nav class="w-full bg-nav dark:bg-darknav shadow-soft px-6 py-3 flex items-center justify-between fixed top-0 left-0 z-50 animate-slide-down">
+        <a href="/" class="flex items-center gap-2 text-2xl font-bold text-primary dark:text-accent">
+            <i class="fas fa-rocket"></i> <span>Portail</span>
+        </a>
+        <ul class="flex gap-4 items-center">
+            {% if session.get('user_id') %}
+                {% if not session.get('is_admin') %}
+                    <li><a href="{{ url_for('jobs.show_jobs') }}" class="flex items-center gap-1 px-3 py-2 rounded-md hover:bg-primary/20 dark:hover:bg-accent/20 hover:text-primary dark:hover:text-accent transition"><i class="fas fa-briefcase"></i> Jobs</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('auth.logout') }}" class="flex items-center gap-1 px-3 py-2 rounded-md hover:bg-primary/20 dark:hover:bg-accent/20 hover:text-primary dark:hover:text-accent transition"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                {% if session.get('is_admin') %}
+                    <li><a href="{{ url_for('admin.jobs') }}" class="flex items-center gap-1 px-3 py-2 rounded-md hover:bg-primary/20 dark:hover:bg-accent/20 hover:text-primary dark:hover:text-accent transition"><i class="fas fa-user-shield"></i> Admin</a></li>
+                    <li><a href="{{ url_for('admin.applications') }}" class="flex items-center gap-1 px-3 py-2 rounded-md hover:bg-primary/20 dark:hover:bg-accent/20 hover:text-primary dark:hover:text-accent transition"><i class="fas fa-clipboard-list"></i> Applications</a></li>
+                {% endif %}
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}" class="flex items-center gap-1 px-3 py-2 rounded-md hover:bg-primary/20 dark:hover:bg-accent/20 hover:text-primary dark:hover:text-accent transition"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                <li><a href="{{ url_for('auth.register') }}" class="flex items-center gap-1 px-3 py-2 rounded-md hover:bg-primary/20 dark:hover:bg-accent/20 hover:text-primary dark:hover:text-accent transition"><i class="fas fa-user-plus"></i> Inscription</a></li>
+            {% endif %}
+        </ul>
+        <button id="darkModeToggle" class="ml-4 text-xl text-primary dark:text-accent hover:text-accent dark:hover:text-primary transition" title="Toggle dark mode"><i class="fas fa-moon"></i></button>
+    </nav>
+    <!-- Header -->
+    <header class="flex flex-col items-center justify-center w-full pt-32 pb-8 animate-fade-in">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-primary dark:text-accent text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent drop-shadow-lg mb-2">
+            Portail Recrutement
+        </h1>
+        <p class="text-lg md:text-xl text-gray-500 dark:text-gray-300 text-center max-w-2xl mt-2">Bienvenue sur la plateforme moderne de gestion de recrutement.</p>
+    </header>
+    <!-- Main Container -->
+    <main class="container mx-auto max-w-2xl bg-card dark:bg-darkcard rounded-2xl shadow-soft p-8 mt-4 animate-fade-in">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for msg in messages %}
+                        <p class="bg-primary/10 text-primary dark:bg-accent/20 dark:text-accent px-4 py-2 rounded mb-2">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <!-- Footer -->
+    <footer class="w-full text-center bg-gradient-to-r from-primary to-accent text-white py-5 rounded-t-2xl mt-16 text-base tracking-wide dark:from-darkcard dark:to-primary transition-colors duration-400">
+        &copy; 2025 - Portail Recrutement
+    </footer>
+    <script>
+        // Dark mode toggle logic
+        const toggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const icon = toggle.querySelector('i');
+        function setDarkMode(on) {
+            if (on) {
+                body.classList.add('dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'on');
+            } else {
+                body.classList.remove('dark');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'off');
+            }
+        }
+        toggle.addEventListener('click', () => {
+            setDarkMode(!body.classList.contains('dark'));
+        });
+        // On load
+        if (localStorage.getItem('darkMode') === 'on') {
+            setDarkMode(true);
+        }
+    </script>
+</body>
+</html>

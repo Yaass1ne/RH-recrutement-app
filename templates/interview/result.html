@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w-full max-w-2xl mx-auto bg-white dark:bg-darkcard rounded-2xl shadow-soft p-8 animate-fade-in">
+  <h2 class="text-2xl font-bold text-green-600 dark:text-green-400 mb-4 text-center">Votre Résultat</h2>
+  <div class="mb-6 text-center">
+    <p class="text-lg font-semibold"><strong>Score total :</strong> {{ decision.total_score }}</p>
+    <p class="text-lg font-semibold"><strong>Status :</strong> {{ decision.status }}</p>
+  </div>
+  <h3 class="text-xl font-bold text-primary dark:text-accent mb-4">Détails des réponses :</h3>
+  <ul class="space-y-4">
+    {% for question, answer, score in responses_and_scores %}
+      <li class="bg-gray-50 dark:bg-darkbg rounded-lg p-4 shadow">
+        <strong class="block text-primary dark:text-accent">Question :</strong> {{ question }}<br>
+        <strong class="block text-primary dark:text-accent">Réponse :</strong> {{ answer }}<br>
+        <strong class="block text-primary dark:text-accent">Score :</strong> {{ score }}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
