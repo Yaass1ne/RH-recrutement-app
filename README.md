@@ -78,6 +78,9 @@ export SENDER_PASSWORD=your_email_password
 
 Replace the placeholders (`your_openai_api_key_here`, `your_email@example.com`, and `your_email_password`) with your actual details.
 
+To generate an app-specific password , you need to enable 2-Step Verification on your Gmail account. Then go to your Google Account > Security > App passwords, select “Mail” and your device, and Google will generate a unique 16-character password for use in applications like this one. 
+This is different from your regular Gmail login password and is required for secure SMTP access.
+
 **Step 5: Launch Application**
 
 ```bash
